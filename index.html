@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WormGPT.Kyy</title>
+<style>
+body { background: #0d0d0d; color: #fff; font-family: Arial; text-align: center; }
+.chat-box { width: 90%; max-width: 500px; margin: 20px auto; padding: 15px; background: #111; border-radius: 10px; }
+input, button { padding: 10px; width: 80%; margin-top: 10px; }
+button { width: 50%; background: #4c00ff; color: #fff; border: none; border-radius: 5px; }
+.message { background: #222; padding: 10px; border-radius: 8px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<h2>🔥 WormGPT.Kyy 🔥</h2>
+<div class="chat-box">
+<div id="messages"></div>
+<input id="prompt" placeholder="Tulis pesan..." />
+<button onclick="sendMessage()">Kirim</button>
+</div>
+<script>
+async function sendMessage() {
+  const msg = document.getElementById("prompt").value;
+  document.getElementById("prompt").value = "";
+  document.getElementById("messages").innerHTML += `<div class='message'>Kamu: ${msg}</div>`;
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt: msg })
+  });
+  const data = await res.json();
+  document.getElementById("messages").innerHTML += `<div class='message'>AI: ${data.reply}</div>`;
+}
+</script>
+</body>
+</html>
